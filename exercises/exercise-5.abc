@@ -1,6 +1,5 @@
-```abc
 X: 1
-T: Exercise 6
+T: Exercise 5
 C: Madhav Sharma
 M: 4/4
 L: 1/8
@@ -8,7 +7,5 @@ Q: 1/4=80
 K: D
 %%MIDI program 40
 $
-DF EG FA | GB Ac Bd |
-dB cA BG | AF GE FD |
-```
-
+DEFG EFGA FGAB GABc ABcd |
+dcBA cBAG BAGF AGFE GFED |

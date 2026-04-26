@@ -1,0 +1,19 @@
+{
+  "name": "violin-practice",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "node scripts/build-data.cjs && vite build",
+    "preview": "vite preview",
+    "data": "node scripts/build-data.cjs"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "^4.7.0",
+    "abcjs": "^6.6.3",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "vite": "^6.4.2"
+  }
+}
