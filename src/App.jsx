@@ -14,6 +14,7 @@ export default function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const piece = data[category][index];
+  const list = data[category];
   const player = usePlayer();
 
   const navigate = useCallback(
@@ -27,14 +28,14 @@ export default function App() {
   );
 
   const goPrev = () => {
-    const list = data[category];
-    navigate(category, (index - 1 + list.length) % list.length);
+    if (index > 0) navigate(category, index - 1);
   };
 
   const goNext = () => {
-    const list = data[category];
-    navigate(category, (index + 1) % list.length);
+    if (index < list.length - 1) navigate(category, index + 1);
   };
+
+  const composer = piece.abc.match(/^C:\s*(.+)$/m)?.[1]?.trim();
 
   return (
     <div className="app">
@@ -65,12 +66,16 @@ export default function App() {
       <main className="main">
         <div className="piece-header">
           <h2>{piece.title}</h2>
-          {piece.abc.match(/^C:\s*(.+)$/m)?.[1] && (
-            <p>{piece.abc.match(/^C:\s*(.+)$/m)[1].trim()}</p>
-          )}
+          {composer && <p>{composer}</p>}
         </div>
         <Notation abc={piece.abc} setVisualObj={player.setVisualObj} />
-        <Controls player={player} onPrev={goPrev} onNext={goNext} />
+        <Controls
+          player={player}
+          onPrev={goPrev}
+          onNext={goNext}
+          hasPrev={index > 0}
+          hasNext={index < list.length - 1}
+        />
       </main>
     </div>
   );

@@ -3,12 +3,14 @@ import ABCJS from "abcjs";
 
 export function usePlayer() {
   const [playing, setPlaying] = useState(false);
+  const [paused, setPaused] = useState(false);
   const [looping, setLooping] = useState(false);
   const synthRef = useRef(null);
   const timingRef = useRef(null);
   const visualObjRef = useRef(null);
   const loopingRef = useRef(false);
   const playingRef = useRef(false);
+  const pausedRef = useRef(false);
   const highlightedRef = useRef([]);
 
   const clearHighlights = useCallback(() => {
@@ -23,26 +25,49 @@ export function usePlayer() {
       timingRef.current.stop();
       timingRef.current = null;
     }
-    if (synthRef.current && playingRef.current) {
+    if (synthRef.current && (playingRef.current || pausedRef.current)) {
       synthRef.current.stop();
     }
     synthRef.current = null;
     playingRef.current = false;
+    pausedRef.current = false;
     setPlaying(false);
+    setPaused(false);
     clearHighlights();
   }, [clearHighlights]);
 
+  const pause = useCallback(() => {
+    if (synthRef.current && playingRef.current && !pausedRef.current) {
+      synthRef.current.pause();
+      if (timingRef.current) timingRef.current.pause();
+      pausedRef.current = true;
+      setPaused(true);
+    }
+  }, []);
+
+  const resume = useCallback(() => {
+    if (synthRef.current && pausedRef.current) {
+      synthRef.current.resume();
+      if (timingRef.current) timingRef.current.start();
+      pausedRef.current = false;
+      setPaused(false);
+    }
+  }, []);
+
   const play = useCallback(async () => {
     if (!visualObjRef.current) return;
-    if (playingRef.current) {
-      stop();
+
+    if (pausedRef.current) {
+      resume();
       return;
     }
 
-    if (!ABCJS.synth.supportsAudio()) {
-      console.warn("Audio not supported");
+    if (playingRef.current) {
+      pause();
       return;
     }
+
+    if (!ABCJS.synth.supportsAudio()) return;
 
     try {
       const synth = new ABCJS.synth.CreateSynth();
@@ -50,7 +75,6 @@ export function usePlayer() {
 
       await synth.init({ visualObj: visualObjRef.current });
       await synth.prime();
-
       clearHighlights();
 
       const timing = new ABCJS.TimingCallbacks(visualObjRef.current, {
@@ -58,7 +82,9 @@ export function usePlayer() {
           if (!event) {
             clearHighlights();
             playingRef.current = false;
+            pausedRef.current = false;
             setPlaying(false);
+            setPaused(false);
             if (loopingRef.current) {
               setTimeout(() => play(), 100);
             }
@@ -82,13 +108,15 @@ export function usePlayer() {
       synth.start();
       timing.start();
       playingRef.current = true;
+      pausedRef.current = false;
       setPlaying(true);
+      setPaused(false);
     } catch (err) {
       console.error("Playback failed:", err);
       playingRef.current = false;
       setPlaying(false);
     }
-  }, [stop, clearHighlights]);
+  }, [stop, pause, resume, clearHighlights]);
 
   const toggleLoop = useCallback(() => {
     setLooping((prev) => {
@@ -105,5 +133,5 @@ export function usePlayer() {
     [stop]
   );
 
-  return { playing, looping, play, stop, toggleLoop, setVisualObj };
+  return { playing, paused, looping, play, pause, resume, stop, toggleLoop, setVisualObj };
 }

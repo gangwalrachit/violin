@@ -21,23 +21,27 @@
   --btn-hover: #e8e8e8;
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --note-fill: #1a1a1a;
+  --staff-stroke: #888888;
 }
 
 [data-theme="dark"] {
-  --bg-primary: #161616;
-  --bg-secondary: #1c1c1c;
-  --bg-sidebar: #1a1a1a;
-  --text-primary: #d4d4d4;
-  --text-secondary: #888888;
-  --text-muted: #555555;
-  --border-color: #2a2a2a;
+  --bg-primary: #141414;
+  --bg-secondary: #1a1a1a;
+  --bg-sidebar: #181818;
+  --text-primary: #c8c8c8;
+  --text-secondary: #808080;
+  --text-muted: #505050;
+  --border-color: #252525;
   --accent: #d4a574;
   --accent-hover: #e0b68a;
   --accent-light: rgba(212, 165, 116, 0.12);
-  --btn-bg: #252525;
-  --btn-hover: #303030;
+  --btn-bg: #222222;
+  --btn-hover: #2c2c2c;
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.15);
   --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --note-fill: #b0b0b0;
+  --staff-stroke: #404040;
 }
 
 body {
@@ -247,33 +251,47 @@ body {
 .notation {
   flex: 1;
   overflow-y: auto;
-  padding: 8px 24px 16px;
+  padding: 12px 24px 16px;
+}
+
+.notation-inner {
+  max-width: 720px;
+  margin: 0 auto;
 }
 
 /* ── abcjs SVG theming ── */
 
 #notation svg {
   max-width: 100%;
+  color: var(--note-fill);
+}
+
+#notation .abcjs-staff {
+  stroke: var(--staff-stroke) !important;
+}
+
+#notation .abcjs-bar {
+  stroke: var(--note-fill) !important;
+}
+
+#notation .abcjs-brace {
+  fill: var(--staff-stroke) !important;
+  stroke: var(--staff-stroke) !important;
+}
+
+[data-theme="dark"] #notation svg {
+  fill: var(--note-fill);
+  stroke: var(--note-fill);
 }
 
 [data-theme="dark"] #notation svg text {
-  fill: var(--text-primary) !important;
+  fill: var(--note-fill) !important;
 }
 
-[data-theme="dark"] #notation svg path {
-  stroke: var(--text-secondary) !important;
-}
-
-[data-theme="dark"] #notation svg path[fill]:not([fill="none"]) {
-  fill: var(--text-primary) !important;
-}
-
-[data-theme="dark"] #notation svg line {
-  stroke: var(--text-secondary) !important;
-}
-
-[data-theme="dark"] #notation svg rect[fill]:not([fill="none"]) {
-  fill: var(--text-primary) !important;
+[data-theme="dark"] #notation .abcjs-staff,
+[data-theme="dark"] #notation .abcjs-staff-extra line,
+[data-theme="dark"] #notation .abcjs-bar {
+  stroke: var(--note-fill) !important;
 }
 
 /* ── Note highlighting during playback ── */
@@ -295,18 +313,23 @@ body {
 .controls {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 10px 24px;
+  justify-content: center;
+  gap: 16px;
+  padding: 12px 24px;
   border-top: 1px solid var(--border-color);
   background: var(--bg-secondary);
   flex-shrink: 0;
 }
 
-.controls-left,
+.controls-left {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
 .controls-right {
   display: flex;
   align-items: center;
-  gap: 6px;
 }
 
 .btn {
@@ -314,21 +337,27 @@ body {
   align-items: center;
   justify-content: center;
   gap: 5px;
-  padding: 6px 10px;
+  padding: 8px;
   font-size: 12px;
   font-weight: 500;
   color: var(--text-primary);
-  background: var(--btn-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background 0.12s, border-color 0.12s;
+  transition: background 0.12s, color 0.12s, opacity 0.12s;
   line-height: 1;
   font-family: inherit;
 }
 
 .btn:hover {
-  background: var(--btn-hover);
+  background: var(--btn-bg);
+}
+
+.btn:disabled {
+  opacity: 0.25;
+  cursor: default;
+  pointer-events: none;
 }
 
 .btn svg {
@@ -336,26 +365,42 @@ body {
 }
 
 .btn-play {
-  min-width: 64px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
   background: var(--accent);
   color: #fff;
-  border-color: var(--accent);
 }
 
 .btn-play:hover {
   background: var(--accent-hover);
-  border-color: var(--accent-hover);
 }
 
 .btn-play.playing {
-  background: var(--text-secondary);
-  border-color: var(--text-secondary);
+  background: var(--accent);
+}
+
+.btn-nav {
+  color: var(--text-secondary);
+}
+
+.btn-nav:hover {
+  color: var(--text-primary);
+}
+
+.btn-loop {
+  color: var(--text-muted);
+  padding: 6px;
+}
+
+.btn-loop:hover {
+  color: var(--text-secondary);
+  background: var(--btn-bg);
 }
 
 .btn-loop.active {
-  background: var(--accent-light);
   color: var(--accent);
-  border-color: var(--accent);
+  background: var(--accent-light);
 }
 
 /* ── Mobile ── */
@@ -399,10 +444,5 @@ body {
 
   .controls {
     padding: 10px 16px;
-  }
-
-  .btn {
-    padding: 8px 12px;
-    font-size: 13px;
   }
 }
