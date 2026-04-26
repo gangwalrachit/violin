@@ -1,0 +1,14 @@
+```abc
+X: 1
+T: Exercise 3
+C: Madhav Sharma
+M: 4/4
+L: 1/8
+Q: 1/4=80
+K: D
+%%MIDI program 40
+$
+DDDD EEEE FFFF GGGG | AAAA BBBB cccc dddd |
+dddd cccc BBBB AAAA | GGGG FFFF EEEE DDDD |
+```
+

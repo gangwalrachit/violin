@@ -1,0 +1,19 @@
+```abc
+X: 1
+T: Exercise 9
+C: Madhav Sharma
+M: 4/4
+L: 1/8
+Q: 1/4=80
+K: D
+%%MIDI program 40
+$
+D E | d c |
+E F | c B |
+F G | B A |
+G A | A G |
+A B | G F |
+B c | F E |
+c d | E D |
+```
+

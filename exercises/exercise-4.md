@@ -1,0 +1,14 @@
+```abc
+X: 1
+T: Exercise 4
+C: Madhav Sharma
+M: 4/4
+L: 1/8
+Q: 1/4=80
+K: D
+%%MIDI program 40
+$
+DEF EFG FGA | GAB ABc Bcd |
+dcB cBA BAG | AGF GFE FED |
+```
+
