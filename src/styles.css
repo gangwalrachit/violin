@@ -183,6 +183,7 @@ body {
   right: 0;
   top: 50%;
   transform: translateY(-50%);
+  height: var(--thickness);
   background: var(--text-muted);
   border-radius: 4px;
   opacity: 0;
@@ -741,8 +742,8 @@ body {
     right: auto;
     top: 0;
     bottom: 0;
-    width: auto;
-    height: auto !important;
+    height: auto;
+    width: var(--thickness);
     transform: translateX(-50%);
   }
 

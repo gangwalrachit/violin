@@ -36,7 +36,7 @@ export default function Landing() {
                 <div
                   className="fb-line"
                   style={{
-                    height: `${s.thickness}px`,
+                    "--thickness": `${s.thickness}px`,
                     animationDelay: `${0.4 + si * 0.1}s`,
                   }}
                 />
