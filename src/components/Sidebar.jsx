@@ -11,11 +11,24 @@ export default function Sidebar({
   open,
   onClose,
 }) {
-  const [expanded, setExpanded] = useState({ [activeCategory]: true });
+  const [expanded, setExpanded] = useState(() => {
+    const init = {};
+    categories.forEach((cat) => {
+      init[cat] = cat === activeCategory;
+    });
+    return init;
+  });
 
   useEffect(() => {
-    setExpanded((prev) => ({ ...prev, [activeCategory]: true }));
-  }, [activeCategory]);
+    setExpanded((prev) => {
+      const next = {};
+      categories.forEach((cat) => {
+        next[cat] = cat === activeCategory ? true : (prev[cat] === true && cat !== activeCategory ? false : prev[cat]);
+      });
+      next[activeCategory] = true;
+      return next;
+    });
+  }, [activeCategory, categories]);
 
   const toggle = (cat) => {
     setExpanded((prev) => ({ ...prev, [cat]: !prev[cat] }));

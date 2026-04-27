@@ -5,6 +5,7 @@ export function usePlayer() {
   const [playing, setPlaying] = useState(false);
   const [paused, setPaused] = useState(false);
   const [looping, setLooping] = useState(false);
+  const [progress, setProgress] = useState(0);
   const synthRef = useRef(null);
   const timingRef = useRef(null);
   const visualObjRef = useRef(null);
@@ -33,6 +34,7 @@ export function usePlayer() {
     pausedRef.current = false;
     setPlaying(false);
     setPaused(false);
+    setProgress(0);
     clearHighlights();
   }, [clearHighlights]);
 
@@ -76,8 +78,14 @@ export function usePlayer() {
       await synth.init({ visualObj: visualObjRef.current });
       await synth.prime();
       clearHighlights();
+      setProgress(0);
 
       const timing = new ABCJS.TimingCallbacks(visualObjRef.current, {
+        beatCallback: (beatNumber, totalBeats) => {
+          if (totalBeats > 0) {
+            setProgress(Math.min((beatNumber / totalBeats) * 100, 100));
+          }
+        },
         eventCallback: (event) => {
           if (!event) {
             clearHighlights();
@@ -85,8 +93,14 @@ export function usePlayer() {
             pausedRef.current = false;
             setPlaying(false);
             setPaused(false);
+            setProgress(100);
             if (loopingRef.current) {
-              setTimeout(() => play(), 100);
+              setTimeout(() => {
+                setProgress(0);
+                play();
+              }, 100);
+            } else {
+              setTimeout(() => setProgress(0), 800);
             }
             return;
           }
@@ -133,5 +147,16 @@ export function usePlayer() {
     [stop]
   );
 
-  return { playing, paused, looping, play, pause, resume, stop, toggleLoop, setVisualObj };
+  return {
+    playing,
+    paused,
+    looping,
+    progress,
+    play,
+    pause,
+    resume,
+    stop,
+    toggleLoop,
+    setVisualObj,
+  };
 }

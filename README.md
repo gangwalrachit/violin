@@ -1,29 +1,42 @@
-# Violin
-This repo is a collection of `exercises/` and `songs/` for learning and practicing on your Violin.
-Built for personal usage, but I feel a lot of people can benefit and take advantage of `abcjs`!
+# Violin Practice
+
+A minimal web app for practicing violin — built with [abcjs](https://www.abcjs.net), React, and Vite.
+
+**[hello-violin.vercel.app](https://hello-violin.vercel.app)**
 
 ---
-## Configurations
-The violin I use is configured as below
 
-| String | Note | Sargam |
-| ------ | ---- | ------ |
-| 1      | A3   | Pa.    |
-| 2      | D4   | Sa     |
-| 3      | A4   | Pa     |
-| 4      | D5   | Sa.    |
+## Tuning
 
-Which roughly maps to:
+```
+(A3) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  ← thickest
+(D4) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+(A4) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+(D5) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  ← thinnest
+```
 
-| Sargam | Note |
-| ------ | ---- |
-| Ni.    | C4   |
-| Sa     | D4   |
-| Re     | E4   |
-| Ga     | F4   |
-| Ma     | G4   |
-| Pa     | A4   |
-| Dha    | B4   |
-| Ni     | C5   |
-| Sa.    | D5   |
+## Sargam Mapping
 
+```
+String 1:  A3 ─── Pa.
+           │
+String 2:  D4 ─── Sa
+           E4 ─── Re
+           F4 ─── Ga
+           G4 ─── Ma
+           │
+String 3:  A4 ─── Pa
+           B4 ─── Dha
+           C5 ─── Ni
+           │
+String 4:  D5 ─── Sa.
+```
+
+## Running Locally
+
+```sh
+npm install
+npm run dev
+```
+
+Exercises and songs live in `exercises/` and `songs/` as `.abc` files. Run `npm run build:data` to regenerate `src/data.json` after editing them.
