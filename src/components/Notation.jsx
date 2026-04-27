@@ -8,12 +8,20 @@ function stripHeaders(abc) {
     .join("\n");
 }
 
-export default function Notation({ abc, setVisualObj }) {
+function injectTempo(abc, bpm) {
+  if (abc.match(/^Q:/m)) {
+    return abc.replace(/^Q:.*$/m, `Q:1/4=${bpm}`);
+  }
+  return abc.replace(/^(M:.*$)/m, `$1\nQ:1/4=${bpm}`);
+}
+
+export default function Notation({ abc, tempo, setVisualObj }) {
   const containerRef = useRef(null);
 
   useEffect(() => {
     if (!containerRef.current) return;
-    const cleaned = stripHeaders(abc);
+    const withTempo = injectTempo(abc, tempo);
+    const cleaned = stripHeaders(withTempo);
     const visualObj = ABCJS.renderAbc(containerRef.current, cleaned, {
       responsive: "resize",
       add_classes: true,
@@ -23,7 +31,7 @@ export default function Notation({ abc, setVisualObj }) {
       paddingbottom: 0,
     })[0];
     setVisualObj(visualObj);
-  }, [abc, setVisualObj]);
+  }, [abc, tempo, setVisualObj]);
 
   return (
     <div className="notation">

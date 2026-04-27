@@ -37,12 +37,11 @@ const LoopIcon = () => (
 );
 
 export default function PlaybackBar() {
-  const { player, currentPiece, nav } = usePlayerContext();
-  const idle = !currentPiece;
-  const title = currentPiece?.title || "No piece loaded";
+  const { player, currentPiece, nav, tempo, setTempo } = usePlayerContext();
+  const title = currentPiece?.title || "";
 
   return (
-    <div className={`playbar-wrapper${idle ? " playbar-idle" : ""}`}>
+    <div className="playbar-wrapper">
       <div className="playbar">
         <div className="playbar-controls">
           <button
@@ -56,7 +55,6 @@ export default function PlaybackBar() {
           <button
             className="playbar-btn playbar-btn-play"
             onClick={player.play}
-            disabled={idle}
             aria-label={player.playing && !player.paused ? "Pause" : "Play"}
           >
             {player.playing && !player.paused ? <PauseIcon /> : <PlayIcon />}
@@ -84,10 +82,28 @@ export default function PlaybackBar() {
         </div>
 
         <div className="playbar-end">
+          <div className="playbar-tempo">
+            <button
+              className="playbar-btn playbar-tempo-btn"
+              onClick={() => setTempo(tempo - 5)}
+              disabled={tempo <= 40}
+              aria-label="Decrease tempo"
+            >
+              -
+            </button>
+            <span className="playbar-tempo-value">{tempo}</span>
+            <button
+              className="playbar-btn playbar-tempo-btn"
+              onClick={() => setTempo(tempo + 5)}
+              disabled={tempo >= 200}
+              aria-label="Increase tempo"
+            >
+              +
+            </button>
+          </div>
           <button
             className={`playbar-btn playbar-loop ${player.looping ? "active" : ""}`}
             onClick={player.toggleLoop}
-            disabled={idle}
             aria-label="Toggle loop"
           >
             <LoopIcon />

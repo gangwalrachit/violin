@@ -80,6 +80,11 @@ body {
   100% { opacity: 1; transform: scaleX(1); }
 }
 
+@keyframes stringShimmerV {
+  0% { opacity: 0.4; transform: scaleY(0.6); }
+  100% { opacity: 1; transform: scaleY(1); }
+}
+
 @keyframes slideUp {
   from {
     opacity: 0;
@@ -108,7 +113,7 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 100dvh;
-  padding: 40px 24px 80px;
+  padding: 40px 24px;
   background: var(--bg-primary);
 }
 
@@ -236,7 +241,14 @@ body {
     "header header"
     "sidebar main";
   height: 100dvh;
+  max-width: 1100px;
+  margin: 0 auto;
   animation: fadeIn 0.35s ease;
+  transition: grid-template-columns 0.25s ease;
+}
+
+.app.sidebar-collapsed {
+  grid-template-columns: 0px 1fr;
 }
 
 /* ── Header ── */
@@ -247,7 +259,6 @@ body {
   align-items: center;
   gap: 10px;
   padding: 0 16px;
-  border-bottom: 1px solid var(--border);
   background: var(--bg-primary);
   z-index: 20;
 }
@@ -284,7 +295,7 @@ body {
 }
 
 .hamburger {
-  display: none;
+  display: flex;
   flex-direction: column;
   gap: 3px;
   background: none;
@@ -311,10 +322,21 @@ body {
 
 .sidebar {
   grid-area: sidebar;
-  overflow-y: auto;
+  overflow: hidden;
   padding: 12px 0;
-  border-right: 1px solid var(--border);
-  background: var(--bg-surface);
+  background: var(--bg-primary);
+  transition: padding 0.25s ease;
+}
+
+.sidebar-collapsed .sidebar {
+  padding: 0;
+  border-right: none;
+}
+
+.sidebar-inner {
+  width: 220px;
+  overflow-y: auto;
+  height: 100%;
 }
 
 .nav-section {
@@ -392,12 +414,7 @@ body {
 }
 
 .overlay {
-  position: fixed;
-  inset: 0;
-  top: 48px;
-  background: rgba(0, 0, 0, 0.3);
-  z-index: 25;
-  animation: fadeIn 0.2s ease;
+  display: none;
 }
 
 /* ── Main ── */
@@ -408,7 +425,6 @@ body {
   flex-direction: column;
   overflow: hidden;
   background: var(--bg-primary);
-  padding-bottom: 80px;
 }
 
 .piece-header {
@@ -490,28 +506,18 @@ body {
   fill: var(--accent) !important;
 }
 
-/* ── Floating Playback Bar ── */
+/* ── Playback Bar ── */
 
 .playbar-wrapper {
-  position: fixed;
-  bottom: 16px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 40;
-  animation: rise 0.4s ease;
+  flex-shrink: 0;
+  background: var(--bg-primary);
 }
 
 .playbar {
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 8px 16px;
-  background: var(--bg-surface);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  box-shadow: var(--shadow-whisper);
-  min-width: 380px;
-  max-width: 520px;
+  padding: 10px 16px 12px;
 }
 
 .playbar-controls {
@@ -549,11 +555,6 @@ body {
   pointer-events: none;
 }
 
-.playbar-idle {
-  opacity: 0.45;
-  pointer-events: none;
-}
-
 .playbar-btn-play {
   width: 34px;
   height: 34px;
@@ -561,7 +562,7 @@ body {
   background: var(--accent);
   color: #faf9f5;
   padding: 0;
-  transition: background 0.15s, transform 0.12s, opacity 0.15s;
+  transition: background 0.15s, transform 0.12s;
 }
 
 .playbar-btn-play:hover {
@@ -571,12 +572,6 @@ body {
 
 .playbar-btn-play:active {
   transform: scale(0.95);
-}
-
-.playbar-btn-play:disabled {
-  opacity: 0.4;
-  cursor: default;
-  pointer-events: none;
 }
 
 .playbar-center {
@@ -606,7 +601,6 @@ body {
   height: 3px;
   background: var(--border-strong);
   border-radius: 2px;
-  cursor: pointer;
   overflow: hidden;
 }
 
@@ -618,7 +612,34 @@ body {
 }
 
 .playbar-end {
+  display: flex;
+  align-items: center;
+  gap: 4px;
   flex-shrink: 0;
+}
+
+.playbar-tempo {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.playbar-tempo-btn {
+  width: 22px;
+  height: 22px;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 0;
+  line-height: 1;
+}
+
+.playbar-tempo-value {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  min-width: 28px;
+  text-align: center;
 }
 
 .playbar-loop {
@@ -658,10 +679,6 @@ body {
       "main";
   }
 
-  .hamburger {
-    display: flex;
-  }
-
   .sidebar {
     position: fixed;
     top: 48px;
@@ -672,11 +689,28 @@ body {
     transform: translateX(-100%);
     transition: transform 0.25s ease;
     box-shadow: none;
+    padding: 12px 0;
+    background: var(--bg-primary);
+    border-right: 1px solid var(--border);
   }
 
   .sidebar.open {
     transform: translateX(0);
     box-shadow: var(--shadow-whisper);
+  }
+
+  .sidebar-inner {
+    width: 240px;
+  }
+
+  .overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    top: 48px;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 25;
+    animation: fadeIn 0.2s ease;
   }
 
   .piece-header {
@@ -687,17 +721,7 @@ body {
     padding: 8px 16px;
   }
 
-  .playbar-wrapper {
-    left: 12px;
-    right: 12px;
-    transform: none;
-    bottom: 12px;
-  }
-
   .playbar {
-    min-width: 0;
-    width: 100%;
-    max-width: none;
     gap: 10px;
     padding: 8px 12px;
   }
@@ -745,6 +769,7 @@ body {
     height: auto;
     width: var(--thickness);
     transform: translateX(-50%);
+    animation-name: stringShimmerV;
   }
 
   .landing-actions {

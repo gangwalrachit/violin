@@ -37,7 +37,7 @@ export default function Sidebar({
   return (
     <>
       <aside className={`sidebar ${open ? "open" : ""}`}>
-        <nav>
+        <nav className="sidebar-inner">
           {categories.map((cat) => (
             <div className="nav-section" key={cat}>
               <button className="nav-section-toggle" onClick={() => toggle(cat)}>

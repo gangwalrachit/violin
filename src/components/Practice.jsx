@@ -4,6 +4,7 @@ import data from "../data.json";
 import { usePlayerContext } from "../context/PlayerContext";
 import Sidebar from "./Sidebar";
 import Notation from "./Notation";
+import PlaybackBar from "./PlaybackBar";
 import ThemeToggle from "./ThemeToggle";
 
 const categories = ["exercises", "songs"];
@@ -12,7 +13,9 @@ export default function Practice() {
   const { category: paramCat, id: paramId } = useParams();
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { player, setCurrentPiece, updateNav, clearNav } = usePlayerContext();
+  const [sidebarVisible, setSidebarVisible] = useState(true);
+  const { player, tempo, setCurrentPiece, updateNav, clearNav } =
+    usePlayerContext();
 
   const category = categories.includes(paramCat) ? paramCat : "exercises";
   const list = data[category];
@@ -38,6 +41,15 @@ export default function Practice() {
     [navigate]
   );
 
+  const toggleSidebar = () => {
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    if (isMobile) {
+      setSidebarOpen((prev) => !prev);
+    } else {
+      setSidebarVisible((prev) => !prev);
+    }
+  };
+
   useEffect(() => {
     if (!paramId && list.length > 0) {
       navigate(`/${category}/${list[0].id}`, { replace: true });
@@ -51,7 +63,8 @@ export default function Practice() {
   useEffect(() => {
     updateNav({
       onPrev: index > 0 ? () => navTo(category, index - 1) : null,
-      onNext: index < list.length - 1 ? () => navTo(category, index + 1) : null,
+      onNext:
+        index < list.length - 1 ? () => navTo(category, index + 1) : null,
       hasPrev: index > 0,
       hasNext: index < list.length - 1,
     });
@@ -61,12 +74,12 @@ export default function Practice() {
   const composer = piece.abc.match(/^C:\s*(.+)$/m)?.[1]?.trim();
 
   return (
-    <div className="app">
+    <div className={`app${sidebarVisible ? "" : " sidebar-collapsed"}`}>
       <header className="header">
         <button
           className="hamburger"
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-          aria-label="Toggle menu"
+          onClick={toggleSidebar}
+          aria-label="Toggle sidebar"
         >
           <span />
           <span />
@@ -97,7 +110,8 @@ export default function Practice() {
           <h2>{piece.title}</h2>
           {composer && <p>{composer}</p>}
         </div>
-        <Notation abc={piece.abc} setVisualObj={player.setVisualObj} />
+        <Notation abc={piece.abc} tempo={tempo} setVisualObj={player.setVisualObj} />
+        <PlaybackBar />
       </main>
     </div>
   );
