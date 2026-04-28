@@ -118,18 +118,18 @@ export default function Landing() {
             >
               <YouTubeIcon />
             </a>
+            <a
+              href="https://github.com/gangwalrachit/violin/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="landing-social-link landing-github"
+              aria-label="Source code on GitHub"
+              title="View source on GitHub"
+            >
+              <GitHubIcon />
+            </a>
           </div>
         </div>
-        <a
-          href="https://github.com/gangwalrachit/violin/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="landing-social-link landing-github"
-          aria-label="Source code on GitHub"
-          title="View source on GitHub"
-        >
-          <GitHubIcon />
-        </a>
       </footer>
     </div>
   );

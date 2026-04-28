@@ -199,7 +199,7 @@ body {
 }
 
 .landing-github {
-  margin-left: auto;
+  margin-left: 4px;
   flex-shrink: 0;
 }
 
@@ -812,10 +812,6 @@ body {
     gap: 10px;
   }
 
-  .landing-github {
-    margin-left: 0;
-  }
-
   .fingerboard {
     flex-direction: row;
     gap: 20px;
@@ -933,7 +929,7 @@ body {
   display: inline-flex;
   align-items: center;
   font-family: var(--font-sans);
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 500;
   color: var(--text-primary);
   padding: 10px 8px;
@@ -1014,7 +1010,7 @@ body {
   }
 
   .sargam-token {
-    font-size: 16px;
+    font-size: 14px;
     padding: 9px 7px;
   }
 }
