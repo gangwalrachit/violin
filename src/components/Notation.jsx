@@ -15,7 +15,7 @@ function injectTempo(abc, bpm) {
   return abc.replace(/^(M:.*$)/m, `$1\nQ:1/4=${bpm}`);
 }
 
-export default function Notation({ abc, tempo, setVisualObj }) {
+export default function Notation({ abc, tempo, setVisualObj, hidden }) {
   const containerRef = useRef(null);
 
   useEffect(() => {
@@ -26,7 +26,7 @@ export default function Notation({ abc, tempo, setVisualObj }) {
       responsive: "resize",
       add_classes: true,
       staffwidth: 600,
-      scale: 0.85,
+      scale: 0.72,
       paddingtop: 0,
       paddingbottom: 0,
     })[0];
@@ -34,7 +34,10 @@ export default function Notation({ abc, tempo, setVisualObj }) {
   }, [abc, tempo, setVisualObj]);
 
   return (
-    <div className="notation">
+    <div
+      className="notation"
+      style={hidden ? { flex: '0 0 0', height: 0, overflow: 'hidden', padding: 0, visibility: 'hidden' } : undefined}
+    >
       <div className="notation-inner">
         <div ref={containerRef} id="notation" />
       </div>

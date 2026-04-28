@@ -1,11 +1,13 @@
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect, useRef, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import data from "../data.json";
 import { usePlayerContext } from "../context/PlayerContext";
 import Sidebar from "./Sidebar";
 import Notation from "./Notation";
+import SargamView from "./SargamView";
 import PlaybackBar from "./PlaybackBar";
 import ThemeToggle from "./ThemeToggle";
+import { parseSargam } from "../utils/parseSargam";
 
 const categories = ["exercises", "songs"];
 
@@ -14,6 +16,7 @@ export default function Practice() {
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarVisible, setSidebarVisible] = useState(true);
+  const [mode, setMode] = useState('sargam');
   const { player, tempo, setCurrentPiece, updateNav, clearNav } =
     usePlayerContext();
 
@@ -72,6 +75,7 @@ export default function Practice() {
   }, [index, category, list.length, navTo, updateNav, clearNav]);
 
   const composer = piece.abc.match(/^C:\s*(.+)$/m)?.[1]?.trim();
+  const sargamItems = useMemo(() => parseSargam(piece.abc), [piece.abc]);
 
   return (
     <div className={`app${sidebarVisible ? "" : " sidebar-collapsed"}`}>
@@ -110,7 +114,30 @@ export default function Practice() {
           <h2>{piece.title}</h2>
           {composer && <p>{composer}</p>}
         </div>
-        <Notation abc={piece.abc} tempo={tempo} setVisualObj={player.setVisualObj} />
+        <div className="view-tabs">
+          <button
+            className={`view-tab${mode === 'sargam' ? ' active' : ''}`}
+            onClick={() => setMode('sargam')}
+          >
+            Sargam
+          </button>
+          <button
+            className={`view-tab${mode === 'sheet' ? ' active' : ''}`}
+            onClick={() => setMode('sheet')}
+          >
+            Sheet
+          </button>
+        </div>
+
+        {mode === 'sargam' && (
+          <SargamView items={sargamItems} currentNoteIndex={player.currentNoteIndex} />
+        )}
+        <Notation
+          abc={piece.abc}
+          tempo={tempo}
+          setVisualObj={player.setVisualObj}
+          hidden={mode === 'sargam'}
+        />
         <PlaybackBar />
       </main>
     </div>

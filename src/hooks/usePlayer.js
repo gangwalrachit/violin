@@ -6,6 +6,7 @@ export function usePlayer() {
   const [paused, setPaused] = useState(false);
   const [looping, setLooping] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [currentNoteIndex, setCurrentNoteIndex] = useState(-1);
   const synthRef = useRef(null);
   const timingRef = useRef(null);
   const visualObjRef = useRef(null);
@@ -13,6 +14,8 @@ export function usePlayer() {
   const playingRef = useRef(false);
   const pausedRef = useRef(false);
   const highlightedRef = useRef([]);
+  const onEventRef = useRef(null);
+  const noteIndexRef = useRef(-1);
 
   const clearHighlights = useCallback(() => {
     highlightedRef.current.forEach((el) => {
@@ -35,6 +38,8 @@ export function usePlayer() {
     setPlaying(false);
     setPaused(false);
     setProgress(0);
+    noteIndexRef.current = -1;
+    setCurrentNoteIndex(-1);
     clearHighlights();
   }, [clearHighlights]);
 
@@ -79,6 +84,8 @@ export function usePlayer() {
       await synth.prime();
       clearHighlights();
       setProgress(0);
+      noteIndexRef.current = -1;
+      setCurrentNoteIndex(-1);
 
       const timing = new ABCJS.TimingCallbacks(visualObjRef.current, {
         beatCallback: (beatNumber, totalBeats) => {
@@ -94,6 +101,8 @@ export function usePlayer() {
             setPlaying(false);
             setPaused(false);
             setProgress(100);
+            noteIndexRef.current = -1;
+            setCurrentNoteIndex(-1);
             if (loopingRef.current) {
               setTimeout(() => {
                 setProgress(0);
@@ -115,6 +124,8 @@ export function usePlayer() {
               });
             });
           }
+          noteIndexRef.current++;
+          setCurrentNoteIndex(noteIndexRef.current);
         },
       });
 
@@ -152,6 +163,7 @@ export function usePlayer() {
     paused,
     looping,
     progress,
+    currentNoteIndex,
     play,
     pause,
     resume,
