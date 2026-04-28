@@ -4,61 +4,61 @@
       "id": "exercise-1",
       "title": "Exercise 1",
       "category": "exercises",
-      "abc": "X: 1\nT: Exercise 1\nC: Madhav Sharma\nM: 4/4\nL: 1/8\nQ: 1/4=80\nK: D\n%%MIDI program 40\n$\nD2 E2 F2 G2 | A2 B2 c2 d2 |\nd2 c2 B2 A2 | G2 F2 E2 D2 |"
+      "abc": "X: 1\nT: Exercise 1\nM: 4/4\nL: 1/8\nQ: 1/4=80\nK: D\n%%MIDI program 40\n$\nD2 E2 F2 G2 | A2 B2 c2 d2 |\nd2 c2 B2 A2 | G2 F2 E2 D2 |"
     },
     {
       "id": "exercise-2",
       "title": "Exercise 2",
       "category": "exercises",
-      "abc": "X: 1\nT: Exercise 2\nC: Madhav Sharma\nM: 4/4\nL: 1/8\nQ: 1/4=80\nK: D\n%%MIDI program 40\n$\nDD EE FF GG | AA BB cc dd |\ndd cc BB AA | GG FF EE DD |"
+      "abc": "X: 1\nT: Exercise 2\nM: 4/4\nL: 1/8\nQ: 1/4=80\nK: D\n%%MIDI program 40\n$\nDD EE FF GG | AA BB cc dd |\ndd cc BB AA | GG FF EE DD |"
     },
     {
       "id": "exercise-3",
       "title": "Exercise 3",
       "category": "exercises",
-      "abc": "X: 1\nT: Exercise 3\nC: Madhav Sharma\nM: 4/4\nL: 1/8\nQ: 1/4=80\nK: D\n%%MIDI program 40\n$\nDDDD EEEE FFFF GGGG | AAAA BBBB cccc dddd |\ndddd cccc BBBB AAAA | GGGG FFFF EEEE DDDD |"
+      "abc": "X: 1\nT: Exercise 3\nM: 4/4\nL: 1/8\nQ: 1/4=80\nK: D\n%%MIDI program 40\n$\nDDDD EEEE FFFF GGGG | AAAA BBBB cccc dddd |\ndddd cccc BBBB AAAA | GGGG FFFF EEEE DDDD |"
     },
     {
       "id": "exercise-4",
       "title": "Exercise 4",
       "category": "exercises",
-      "abc": "X: 1\nT: Exercise 4\nC: Madhav Sharma\nM: 4/4\nL: 1/8\nQ: 1/4=80\nK: D\n%%MIDI program 40\n$\nDEF EFG FGA | GAB ABc Bcd |\ndcB cBA BAG | AGF GFE FED |"
+      "abc": "X: 1\nT: Exercise 4\nM: 4/4\nL: 1/8\nQ: 1/4=80\nK: D\n%%MIDI program 40\n$\nDEF EFG FGA | GAB ABc Bcd |\ndcB cBA BAG | AGF GFE FED |"
     },
     {
       "id": "exercise-5",
       "title": "Exercise 5",
       "category": "exercises",
-      "abc": "X: 1\nT: Exercise 5\nC: Madhav Sharma\nM: 4/4\nL: 1/8\nQ: 1/4=80\nK: D\n%%MIDI program 40\n$\nDEFG EFGA FGAB GABc ABcd |\ndcBA cBAG BAGF AGFE GFED |"
+      "abc": "X: 1\nT: Exercise 5\nM: 4/4\nL: 1/8\nQ: 1/4=80\nK: D\n%%MIDI program 40\n$\nDEFG EFGA FGAB GABc ABcd |\ndcBA cBAG BAGF AGFE GFED |"
     },
     {
       "id": "exercise-6",
       "title": "Exercise 6",
       "category": "exercises",
-      "abc": "X: 1\nT: Exercise 6\nC: Madhav Sharma\nM: 4/4\nL: 1/8\nQ: 1/4=80\nK: D\n%%MIDI program 40\n$\nDF EG FA | GB Ac Bd |\ndB cA BG | AF GE FD |"
+      "abc": "X: 1\nT: Exercise 6\nM: 4/4\nL: 1/8\nQ: 1/4=80\nK: D\n%%MIDI program 40\n$\nDF EG FA | GB Ac Bd |\ndB cA BG | AF GE FD |"
     },
     {
       "id": "exercise-7",
       "title": "Exercise 7",
       "category": "exercises",
-      "abc": "X: 1\nT: Exercise 7\nC: Madhav Sharma\nM: 4/4\nL: 1/8\nQ: 1/4=80\nK: D\n%%MIDI program 40\n$\nD E F G | d c B A |\nE F G A | c B A G |\nF G A B | B A G F |\nG A B c | A G F E |\nA B c d | G F E D |"
+      "abc": "X: 1\nT: Exercise 7\nM: 4/4\nL: 1/8\nQ: 1/4=80\nK: D\n%%MIDI program 40\n$\nD E F G | d c B A |\nE F G A | c B A G |\nF G A B | B A G F |\nG A B c | A G F E |\nA B c d | G F E D |"
     },
     {
       "id": "exercise-8",
       "title": "Exercise 8",
       "category": "exercises",
-      "abc": "X: 1\nT: Exercise 8\nC: Madhav Sharma\nM: 4/4\nL: 1/8\nQ: 1/4=80\nK: D\n%%MIDI program 40\n$\nD E F | d c B | E F G | c B A |\nF G A | B A G | G A B | A G F |\nA B c | G F E | B c d | F E D |"
+      "abc": "X: 1\nT: Exercise 8\nM: 4/4\nL: 1/8\nQ: 1/4=80\nK: D\n%%MIDI program 40\n$\nD E F | d c B | E F G | c B A |\nF G A | B A G | G A B | A G F |\nA B c | G F E | B c d | F E D |"
     },
     {
       "id": "exercise-9",
       "title": "Exercise 9",
       "category": "exercises",
-      "abc": "X: 1\nT: Exercise 9\nC: Madhav Sharma\nM: 4/4\nL: 1/8\nQ: 1/4=80\nK: D\n%%MIDI program 40\n$\nD E | d c |\nE F | c B |\nF G | B A |\nG A | A G |\nA B | G F |\nB c | F E |\nc d | E D |"
+      "abc": "X: 1\nT: Exercise 9\nM: 4/4\nL: 1/8\nQ: 1/4=80\nK: D\n%%MIDI program 40\n$\nD E | d c |\nE F | c B |\nF G | B A |\nG A | A G |\nA B | G F |\nB c | F E |\nc d | E D |"
     },
     {
       "id": "exercise-10",
       "title": "Exercise 10",
       "category": "exercises",
-      "abc": "X: 1\nT: Exercise 10\nC: Madhav Sharma\nM: 4/4\nL: 1/8\nQ: 1/4=80\nK: D\n%%MIDI program 40\n$\nD d | E c |\nF B | G A |\nA G | B F |\nc E | d D |"
+      "abc": "X: 1\nT: Exercise 10\nM: 4/4\nL: 1/8\nQ: 1/4=80\nK: D\n%%MIDI program 40\n$\nD d | E c |\nF B | G A |\nA G | B F |\nc E | d D |"
     }
   ],
   "songs": [
@@ -66,7 +66,7 @@
       "id": "notation-song",
       "title": "Notation Song",
       "category": "songs",
-      "abc": "X: 1\nT: Notation Song\nC: Madhav Sharma\nM: 4/4\nL: 1/8\nQ: 1/4=90\nK: D\n%%MIDI program 40\n$\nD2 F2 D2 F2 | D2 F2 GF ED | C2 E2 C2 E2 | C2 E2 FE DC |\nD2 F2 D2 F2 | DE FG A2 z2 | GF ED FE DC | D2 D2 D2 z2 |\n$\nD2 D2 ED CD | E2 E2 FE DE | F2 F2 GF ED | C2 E2 D2 z2 |\nF2 F2 GF EF | G2 G2 G2 z2 | F2 F2 GF ED | E2 E2 E2 z2 |\nA2 A2 BA GF | G2 G2 AG FE | F2 F2 GF ED | C2 E2 D2 z2 |\n$\nd2 cB A2 G2 | F2 G2 A2 Bc | d2 cB A2 G2 | FG FG E2 z2 |\nGF ED FE DC | D2 D2 D2 z2 | GF ED FE DC | D2 D2 D2 z2 |\nGF ED FE DC | D2 D2 D2 z2 |"
+      "abc": "X: 1\nT: Notation Song\nM: 4/4\nL: 1/8\nQ: 1/4=90\nK: D\n%%MIDI program 40\n$\nD2 F2 D2 F2 | D2 F2 GF ED | C2 E2 C2 E2 | C2 E2 FE DC |\nD2 F2 D2 F2 | DE FG A2 z2 | GF ED FE DC | D2 D2 D2 z2 |\n$\nD2 D2 ED CD | E2 E2 FE DE | F2 F2 GF ED | C2 E2 D2 z2 |\nF2 F2 GF EF | G2 G2 G2 z2 | F2 F2 GF ED | E2 E2 E2 z2 |\nA2 A2 BA GF | G2 G2 AG FE | F2 F2 GF ED | C2 E2 D2 z2 |\n$\nd2 cB A2 G2 | F2 G2 A2 Bc | d2 cB A2 G2 | FG FG E2 z2 |\nGF ED FE DC | D2 D2 D2 z2 | GF ED FE DC | D2 D2 D2 z2 |\nGF ED FE DC | D2 D2 D2 z2 |"
     }
   ]
 }
