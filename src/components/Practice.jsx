@@ -94,7 +94,7 @@ export default function Practice() {
           onClick={() => navigate("/")}
           style={{ cursor: "pointer" }}
         >
-          Violin Practice
+          String Theory
         </h1>
         <ThemeToggle />
       </header>

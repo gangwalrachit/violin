@@ -110,17 +110,19 @@ body {
 
 .landing {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
   min-height: 100dvh;
-  padding: 40px 24px;
+  padding: 40px 24px 24px;
   background: var(--bg-primary);
 }
 
 .landing-content {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   text-align: center;
   width: 100%;
   max-width: 560px;
@@ -142,6 +144,63 @@ body {
   line-height: 1.6;
   color: var(--text-muted);
   margin-bottom: 48px;
+}
+
+.landing-ready {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+}
+
+/* ── Landing Footer ── */
+
+.landing-footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 560px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.landing-credit {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.landing-socials {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.landing-social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  padding: 4px;
+  border-radius: 6px;
+  transition: color 0.15s, background 0.15s;
+  text-decoration: none;
+}
+
+.landing-social-link:hover {
+  color: var(--text-primary);
+  background: var(--border);
+}
+
+.landing-github {
+  margin-left: auto;
+  flex-shrink: 0;
 }
 
 .fingerboard {
@@ -746,6 +805,15 @@ body {
   .landing-subtitle {
     font-size: 15px;
     margin-bottom: 36px;
+  }
+
+  .landing-footer {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .landing-github {
+    margin-left: 0;
   }
 
   .fingerboard {
