@@ -2,10 +2,10 @@ import { useNavigate } from "react-router-dom";
 import ThemeToggle from "./ThemeToggle";
 
 const strings = [
-  { thickness: 3.5, note: "G3" },
+  { thickness: 3.5, note: "A3" },
   { thickness: 2.5, note: "D4" },
   { thickness: 1.5, note: "A4" },
-  { thickness: 0.8, note: "E5" },
+  { thickness: 0.8, note: "D5" },
 ];
 
 const InstagramIcon = () => (
@@ -41,7 +41,10 @@ export default function Landing() {
       <div className="landing-content">
         <h1 className="landing-title anim-rise">String Theory</h1>
         <p className="landing-subtitle anim-rise anim-delay-1">
-          Violin Practice &amp; Lessons
+          <span className="landing-violin">Violin</span> Practice &amp; Lessons
+        </p>
+        <p className="landing-description anim-rise anim-delay-1">
+          Learn violin with structured exercises and songs
         </p>
 
         <div className="fingerboard anim-rise anim-delay-2">
@@ -86,7 +89,7 @@ export default function Landing() {
 
       <footer className="landing-footer">
         <div className="landing-credit">
-          <span>As taught by Madhav Sharma</span>
+          <span>As taught by <em><strong>Madhav Sharma</strong></em></span>
           <div className="landing-socials">
             <a
               href="https://instagram.com/madhavviolin"
@@ -118,18 +121,18 @@ export default function Landing() {
             >
               <YouTubeIcon />
             </a>
-            <a
-              href="https://github.com/gangwalrachit/violin/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="landing-social-link landing-github"
-              aria-label="Source code on GitHub"
-              title="View source on GitHub"
-            >
-              <GitHubIcon />
-            </a>
           </div>
         </div>
+        <a
+          href="https://github.com/gangwalrachit/violin/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="landing-social-link landing-github"
+          aria-label="Source code on GitHub"
+          title="View source on GitHub"
+        >
+          <GitHubIcon />
+        </a>
       </footer>
     </div>
   );

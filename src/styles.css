@@ -143,7 +143,20 @@ body {
   font-weight: 400;
   line-height: 1.6;
   color: var(--text-muted);
-  margin-bottom: 48px;
+  margin-bottom: 6px;
+}
+
+.landing-violin {
+  color: var(--accent);
+}
+
+.landing-description {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 44px;
 }
 
 .landing-ready {
@@ -199,7 +212,7 @@ body {
 }
 
 .landing-github {
-  margin-left: 4px;
+  margin-left: auto;
   flex-shrink: 0;
 }
 
@@ -500,11 +513,12 @@ body {
   color: var(--text-primary);
 }
 
-.piece-header p {
+.piece-composer {
   font-family: var(--font-sans);
   font-size: 15px;
   color: var(--text-muted);
   margin-top: 3px;
+  min-height: 1.4em;
 }
 
 .notation {
