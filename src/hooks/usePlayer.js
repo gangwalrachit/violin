@@ -76,6 +76,21 @@ export function usePlayer() {
 
     if (!ABCJS.synth.supportsAudio()) return;
 
+    // Safari requires AudioContext to be created/resumed synchronously within the
+    // user gesture. abcjs stores it in window.abcjsAudioContext — seed it here
+    // before the first await so Safari grants audio permission.
+    try {
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (AudioContextClass) {
+        if (!window.abcjsAudioContext || window.abcjsAudioContext.state === "closed") {
+          window.abcjsAudioContext = new AudioContextClass();
+        }
+        if (window.abcjsAudioContext.state === "suspended") {
+          window.abcjsAudioContext.resume();
+        }
+      }
+    } catch (_) {}
+
     try {
       const synth = new ABCJS.synth.CreateSynth();
       synthRef.current = synth;

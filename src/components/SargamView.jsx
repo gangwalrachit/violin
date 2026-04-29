@@ -1,15 +1,4 @@
-import { useRef, useEffect } from "react";
-
 export default function SargamView({ items, currentNoteIndex }) {
-  const activeRowRef = useRef(null);
-
-  // Scroll the active row into view when playback moves to a new line
-  useEffect(() => {
-    if (activeRowRef.current) {
-      activeRowRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
-    }
-  }, [currentNoteIndex]);
-
   return (
     <div className="sargam-view">
       <div className="sargam-inner">
@@ -18,15 +7,10 @@ export default function SargamView({ items, currentNoteIndex }) {
             return <div key={i} className="sargam-section-break" />;
           }
 
-          const rowIsActive = item.tokens.some(
-            (t) => t.noteIndex === currentNoteIndex
-          );
-
           return (
             <div
               key={i}
               className="sargam-row"
-              ref={rowIsActive ? activeRowRef : null}
             >
               {item.tokens.map((token, j) => {
                 if (token.type === "barline") {
