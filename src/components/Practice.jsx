@@ -112,7 +112,7 @@ export default function Practice() {
       <main className="main">
         <div className="piece-header">
           <h2>{piece.title}</h2>
-          <p className="piece-composer">{composer}</p>
+          <p className="piece-composer">{composer || " "}</p>
         </div>
         <div className="view-tabs">
           <button
