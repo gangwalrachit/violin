@@ -1,12 +1,30 @@
-# Violin Practice
+# String Theory
 
-A minimal web app for practicing violin — built with [abcjs](https://www.abcjs.net), React, and Vite.
+A violin practice web app with structured exercises, songs, and real-time playback — built for students learning under [Madhav Sharma](https://instagram.com/madhavviolin).
 
-**[hello-violin.vercel.app](https://hello-violin.vercel.app)**
+**Live:** [violinstringtheory.vercel.app](https://violinstringtheory.vercel.app)
 
 ---
 
+## Features
+
+- **Sargam view** — notes displayed as Sa Re Ga Ma Pa with real-time playback highlighting
+- **Sheet music view** — standard notation rendered via abcjs
+- **Global playback bar** — play/pause, loop, and tempo control (50–150% speed)
+- **10 exercises + songs** — D-major scale patterns and pieces
+- **Dark mode** — warm Anthropic-inspired palette
+- **Mobile-friendly** — responsive layout with collapsible sidebar
+
+## Tech Stack
+
+- [Vite](https://vitejs.dev) + [React](https://react.dev)
+- [abcjs](https://abcjs.net) — ABC notation rendering and audio synthesis
+- [React Router](https://reactrouter.com) — client-side routing
+- CSS custom properties — no UI framework
+
 ## Tuning
+
+This app is built around D-major violin exercises (ADAD tuning context):
 
 ```
 (A3) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  ← thickest
@@ -15,28 +33,26 @@ A minimal web app for practicing violin — built with [abcjs](https://www.abcjs
 (D5) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  ← thinnest
 ```
 
-## Sargam Mapping
+## Sargam Mapping (D major)
 
 ```
-String 1:  A3 ─── Pa.
-           │
-String 2:  D4 ─── Sa
-           E4 ─── Re
-           F4 ─── Ga
-           G4 ─── Ma
-           │
-String 3:  A4 ─── Pa
-           B4 ─── Dha
-           C5 ─── Ni
-           │
-String 4:  D5 ─── Sa.
+D4 → Sa   E4 → Re   F4 → Ga   G4 → Ma
+A4 → Pa   B4 → Dha  C5 → Ni   D5 → Sa'
 ```
 
 ## Running Locally
 
-```sh
+```bash
 npm install
 npm run dev
 ```
 
-Exercises and songs live in `exercises/` and `songs/` as `.abc` files. Run `npm run build:data` to regenerate `src/data.json` after editing them.
+Opens at `http://localhost:5173`. Exercises and songs are in `src/data.json` as [ABC notation](https://abcnotation.com).
+
+## Content
+
+Taught by **Madhav Sharma**:
+
+- [@madhavviolin](https://instagram.com/madhavviolin) on Instagram
+- [@MadhavViolinofficialchannel](https://youtube.com/@MadhavViolinofficialchannel) on YouTube
+- [@ViolinWithMadhav](https://youtube.com/@ViolinWithMadhav) on YouTube
