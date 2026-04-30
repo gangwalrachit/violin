@@ -101,28 +101,27 @@ export function usePlayer() {
       return;
     }
 
-    if (!ABCJS.synth.supportsAudio()) return;
+    // Create AudioContext synchronously within user gesture (required for Safari iOS).
+    // Then await resume() as the very first async call — the user activation window
+    // on Safari persists through the first await, ensuring the context is running
+    // before we hand it to abcjs.
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) return;
 
-    // Safari requires AudioContext to be created/resumed synchronously within the
-    // user gesture. abcjs stores it in window.abcjsAudioContext — seed it here
-    // before the first await so Safari grants audio permission.
+    if (!window.abcjsAudioContext || window.abcjsAudioContext.state === "closed") {
+      window.abcjsAudioContext = new AudioContextClass();
+    }
     try {
-      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-      if (AudioContextClass) {
-        if (!window.abcjsAudioContext || window.abcjsAudioContext.state === "closed") {
-          window.abcjsAudioContext = new AudioContextClass();
-        }
-        if (window.abcjsAudioContext.state === "suspended") {
-          window.abcjsAudioContext.resume();
-        }
-      }
+      await window.abcjsAudioContext.resume();
     } catch (_) {}
+
+    if (!ABCJS.synth.supportsAudio()) return;
 
     try {
       const synth = new ABCJS.synth.CreateSynth();
       synthRef.current = synth;
 
-      await synth.init({ visualObj: visualObjRef.current });
+      await synth.init({ visualObj: visualObjRef.current, audioContext: window.abcjsAudioContext });
       await synth.prime();
       clearHighlights();
       setProgress(0);
