@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import ABCJS from "abcjs";
 
 export function usePlayer() {
@@ -16,6 +16,32 @@ export function usePlayer() {
   const highlightedRef = useRef([]);
   const onEventRef = useRef(null);
   const noteIndexRef = useRef(-1);
+  const wakeLockRef = useRef(null);
+
+  const requestWakeLock = useCallback(async () => {
+    if (!("wakeLock" in navigator)) return;
+    try {
+      wakeLockRef.current = await navigator.wakeLock.request("screen");
+    } catch (_) {}
+  }, []);
+
+  const releaseWakeLock = useCallback(() => {
+    if (wakeLockRef.current) {
+      wakeLockRef.current.release();
+      wakeLockRef.current = null;
+    }
+  }, []);
+
+  // Re-request wake lock when page becomes visible again (screen unlock releases it)
+  useEffect(() => {
+    const handleVisibility = () => {
+      if (document.visibilityState === "visible" && playingRef.current) {
+        requestWakeLock();
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibility);
+    return () => document.removeEventListener("visibilitychange", handleVisibility);
+  }, [requestWakeLock]);
 
   const clearHighlights = useCallback(() => {
     highlightedRef.current.forEach((el) => {
@@ -41,7 +67,8 @@ export function usePlayer() {
     noteIndexRef.current = -1;
     setCurrentNoteIndex(-1);
     clearHighlights();
-  }, [clearHighlights]);
+    releaseWakeLock();
+  }, [clearHighlights, releaseWakeLock]);
 
   const pause = useCallback(() => {
     if (synthRef.current && playingRef.current && !pausedRef.current) {
@@ -118,6 +145,7 @@ export function usePlayer() {
             setProgress(100);
             noteIndexRef.current = -1;
             setCurrentNoteIndex(-1);
+            releaseWakeLock();
             if (loopingRef.current) {
               setTimeout(() => {
                 setProgress(0);
@@ -151,12 +179,13 @@ export function usePlayer() {
       pausedRef.current = false;
       setPlaying(true);
       setPaused(false);
+      requestWakeLock();
     } catch (err) {
       console.error("Playback failed:", err);
       playingRef.current = false;
       setPlaying(false);
     }
-  }, [stop, pause, resume, clearHighlights]);
+  }, [stop, pause, resume, clearHighlights, requestWakeLock, releaseWakeLock]);
 
   const toggleLoop = useCallback(() => {
     setLooping((prev) => {
