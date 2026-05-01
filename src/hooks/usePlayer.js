@@ -155,7 +155,10 @@ export function usePlayer() {
             setCurrentNoteIndex(-1);
             releaseWakeLock();
             if (loopingRef.current) {
-              const msGap = visualObjRef.current?.millisecondsPerMeasure?.() ?? 2000;
+              const vo = visualObjRef.current;
+              const msPerMeasure = vo?.millisecondsPerMeasure?.() ?? 2000;
+              const beats = vo?.getBeatsPerMeasure?.() || 4;
+              const msGap = msPerMeasure / beats;
               setTimeout(() => {
                 setProgress(0);
                 play();
