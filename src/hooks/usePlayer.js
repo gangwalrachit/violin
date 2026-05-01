@@ -1,32 +1,6 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import ABCJS from "abcjs";
 
-// Build a blob URL for a minimal silent WAV once and reuse it.
-// Playing this through an HTMLAudioElement switches iOS's audio session from
-// "ambient" (muted by the Ring/Silent switch) to "playback" (ignores it).
-let _silentUrl = null;
-function getSilentAudioUrl() {
-  if (_silentUrl) return _silentUrl;
-  const buf = new ArrayBuffer(45);
-  const v = new DataView(buf);
-  v.setUint32(0,  0x52494646, false); // "RIFF"
-  v.setUint32(4,  37,         true);  // file size - 8
-  v.setUint32(8,  0x57415645, false); // "WAVE"
-  v.setUint32(12, 0x666D7420, false); // "fmt "
-  v.setUint32(16, 16,         true);  // fmt chunk size
-  v.setUint16(20, 1,          true);  // PCM
-  v.setUint16(22, 1,          true);  // mono
-  v.setUint32(24, 22050,      true);  // sample rate
-  v.setUint32(28, 22050,      true);  // byte rate
-  v.setUint16(32, 1,          true);  // block align
-  v.setUint16(34, 8,          true);  // bits per sample
-  v.setUint32(36, 0x64617461, false); // "data"
-  v.setUint32(40, 1,          true);  // data size
-  v.setUint8 (44, 128);               // silent sample (8-bit center)
-  _silentUrl = URL.createObjectURL(new Blob([buf], { type: "audio/wav" }));
-  return _silentUrl;
-}
-
 export function usePlayer() {
   const [playing, setPlaying] = useState(false);
   const [paused, setPaused] = useState(false);
@@ -126,10 +100,6 @@ export function usePlayer() {
       pause();
       return;
     }
-
-    // Switch iOS audio session to "playback" category so the Ring/Silent switch
-    // is ignored. Must be called synchronously within the user gesture.
-    try { new Audio(getSilentAudioUrl()).play().catch(() => {}); } catch (_) {}
 
     const AudioContextClass = window.AudioContext || window.webkitAudioContext;
     if (!AudioContextClass) return;
