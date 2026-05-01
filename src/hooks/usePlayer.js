@@ -146,10 +146,11 @@ export function usePlayer() {
             setCurrentNoteIndex(-1);
             releaseWakeLock();
             if (loopingRef.current) {
+              const msGap = visualObjRef.current?.millisecondsPerMeasure?.() ?? 2000;
               setTimeout(() => {
                 setProgress(0);
                 play();
-              }, 100);
+              }, msGap);
             } else {
               setTimeout(() => setProgress(0), 800);
             }
