@@ -7,6 +7,12 @@ export function usePlayer() {
   const [looping, setLooping] = useState(false);
   const [progress, setProgress] = useState(0);
   const [currentNoteIndex, setCurrentNoteIndex] = useState(-1);
+  const [debugLog, setDebugLog] = useState([]);
+  const log = useCallback((msg) => {
+    const line = `${new Date().toISOString().slice(11,19)} ${msg}`;
+    console.log(line);
+    setDebugLog(prev => [...prev.slice(-8), line]);
+  }, []);
   const synthRef = useRef(null);
   const timingRef = useRef(null);
   const visualObjRef = useRef(null);
@@ -101,16 +107,16 @@ export function usePlayer() {
       return;
     }
 
+    log(`play() start — visualObj: ${!!visualObjRef.current}`);
+
     const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-    if (!AudioContextClass) return;
+    if (!AudioContextClass) { log("no AudioContext class"); return; }
 
     if (!window.abcjsAudioContext || window.abcjsAudioContext.state === "closed") {
       window.abcjsAudioContext = new AudioContextClass();
     }
+    log(`ctx state before unlock: ${window.abcjsAudioContext.state}`);
 
-    // iOS Safari requires actually *starting* audio output within the user gesture —
-    // resume() alone is not enough. Play a silent 1-sample buffer synchronously to
-    // satisfy iOS's "must have played audio in this gesture" requirement.
     try {
       const ctx = window.abcjsAudioContext;
       if (ctx.state !== "running") {
@@ -119,24 +125,26 @@ export function usePlayer() {
         src.buffer = buf;
         src.connect(ctx.destination);
         src.start(0);
-        ctx.resume();
+        await ctx.resume();
       }
-    } catch (_) {}
+    } catch (e) { log(`unlock error: ${e.message}`); }
+    log(`ctx state after unlock: ${window.abcjsAudioContext.state}`);
 
-    if (!ABCJS.synth.supportsAudio()) return;
+    if (!ABCJS.synth.supportsAudio()) { log("supportsAudio false"); return; }
 
     try {
       const synth = new ABCJS.synth.CreateSynth();
       synthRef.current = synth;
 
+      log("calling synth.init...");
       await synth.init({ visualObj: visualObjRef.current, audioContext: window.abcjsAudioContext });
+      log("synth.init done, calling prime...");
       await synth.prime();
+      log(`prime done — ctx state: ${window.abcjsAudioContext.state}`);
 
-      // iOS Safari can suspend the context during the async prime() call (soundfont
-      // loading). Re-resume here — this works because the context is already
-      // gesture-unlocked from the silent buffer above.
       if (window.abcjsAudioContext.state === "suspended") {
         await window.abcjsAudioContext.resume();
+        log("re-resumed after prime");
       }
       clearHighlights();
       setProgress(0);
@@ -195,12 +203,13 @@ export function usePlayer() {
       setPlaying(true);
       setPaused(false);
       requestWakeLock();
+      log("synth.start() called — should hear audio now");
     } catch (err) {
-      console.error("Playback failed:", err);
+      log(`ERROR: ${err.message}`);
       playingRef.current = false;
       setPlaying(false);
     }
-  }, [stop, pause, resume, clearHighlights, requestWakeLock, releaseWakeLock]);
+  }, [stop, pause, resume, clearHighlights, requestWakeLock, releaseWakeLock, log]);
 
   const toggleLoop = useCallback(() => {
     setLooping((prev) => {
@@ -223,6 +232,7 @@ export function usePlayer() {
     looping,
     progress,
     currentNoteIndex,
+    debugLog,
     play,
     pause,
     resume,
