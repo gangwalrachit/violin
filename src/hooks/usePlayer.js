@@ -101,18 +101,26 @@ export function usePlayer() {
       return;
     }
 
-    // Create AudioContext synchronously within user gesture (required for Safari iOS).
-    // Then await resume() as the very first async call — the user activation window
-    // on Safari persists through the first await, ensuring the context is running
-    // before we hand it to abcjs.
     const AudioContextClass = window.AudioContext || window.webkitAudioContext;
     if (!AudioContextClass) return;
 
     if (!window.abcjsAudioContext || window.abcjsAudioContext.state === "closed") {
       window.abcjsAudioContext = new AudioContextClass();
     }
+
+    // iOS Safari requires actually *starting* audio output within the user gesture —
+    // resume() alone is not enough. Play a silent 1-sample buffer synchronously to
+    // satisfy iOS's "must have played audio in this gesture" requirement.
     try {
-      await window.abcjsAudioContext.resume();
+      const ctx = window.abcjsAudioContext;
+      if (ctx.state !== "running") {
+        const buf = ctx.createBuffer(1, 1, ctx.sampleRate);
+        const src = ctx.createBufferSource();
+        src.buffer = buf;
+        src.connect(ctx.destination);
+        src.start(0);
+        ctx.resume();
+      }
     } catch (_) {}
 
     if (!ABCJS.synth.supportsAudio()) return;
@@ -123,6 +131,13 @@ export function usePlayer() {
 
       await synth.init({ visualObj: visualObjRef.current, audioContext: window.abcjsAudioContext });
       await synth.prime();
+
+      // iOS Safari can suspend the context during the async prime() call (soundfont
+      // loading). Re-resume here — this works because the context is already
+      // gesture-unlocked from the silent buffer above.
+      if (window.abcjsAudioContext.state === "suspended") {
+        await window.abcjsAudioContext.resume();
+      }
       clearHighlights();
       setProgress(0);
       noteIndexRef.current = -1;
