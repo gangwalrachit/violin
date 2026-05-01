@@ -42,11 +42,6 @@ export default function PlaybackBar() {
 
   return (
     <div className="playbar-wrapper">
-      {player.debugLog?.length > 0 && (
-        <div style={{ fontFamily: "monospace", fontSize: 10, background: "#141413", color: "#c96442", padding: "6px 10px", borderRadius: 8, marginBottom: 6, whiteSpace: "pre-wrap" }}>
-          {player.debugLog.join("\n")}
-        </div>
-      )}
       <div className="playbar">
         <div className="playbar-controls">
           <button

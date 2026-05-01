@@ -7,12 +7,6 @@ export function usePlayer() {
   const [looping, setLooping] = useState(false);
   const [progress, setProgress] = useState(0);
   const [currentNoteIndex, setCurrentNoteIndex] = useState(-1);
-  const [debugLog, setDebugLog] = useState([]);
-  const log = useCallback((msg) => {
-    const line = `${new Date().toISOString().slice(11,19)} ${msg}`;
-    console.log(line);
-    setDebugLog(prev => [...prev.slice(-8), line]);
-  }, []);
   const synthRef = useRef(null);
   const timingRef = useRef(null);
   const visualObjRef = useRef(null);
@@ -107,15 +101,12 @@ export function usePlayer() {
       return;
     }
 
-    log(`play() start — visualObj: ${!!visualObjRef.current}`);
-
     const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-    if (!AudioContextClass) { log("no AudioContext class"); return; }
+    if (!AudioContextClass) return;
 
     if (!window.abcjsAudioContext || window.abcjsAudioContext.state === "closed") {
       window.abcjsAudioContext = new AudioContextClass();
     }
-    log(`ctx state before unlock: ${window.abcjsAudioContext.state}`);
 
     try {
       const ctx = window.abcjsAudioContext;
@@ -127,24 +118,19 @@ export function usePlayer() {
         src.start(0);
         await ctx.resume();
       }
-    } catch (e) { log(`unlock error: ${e.message}`); }
-    log(`ctx state after unlock: ${window.abcjsAudioContext.state}`);
+    } catch (_) {}
 
-    if (!ABCJS.synth.supportsAudio()) { log("supportsAudio false"); return; }
+    if (!ABCJS.synth.supportsAudio()) return;
 
     try {
       const synth = new ABCJS.synth.CreateSynth();
       synthRef.current = synth;
 
-      log("calling synth.init...");
       await synth.init({ visualObj: visualObjRef.current, audioContext: window.abcjsAudioContext });
-      log("synth.init done, calling prime...");
       await synth.prime();
-      log(`prime done — ctx state: ${window.abcjsAudioContext.state}`);
 
       if (window.abcjsAudioContext.state === "suspended") {
         await window.abcjsAudioContext.resume();
-        log("re-resumed after prime");
       }
       clearHighlights();
       setProgress(0);
@@ -203,13 +189,12 @@ export function usePlayer() {
       setPlaying(true);
       setPaused(false);
       requestWakeLock();
-      log("synth.start() called — should hear audio now");
     } catch (err) {
-      log(`ERROR: ${err.message}`);
+      console.error("Playback failed:", err);
       playingRef.current = false;
       setPlaying(false);
     }
-  }, [stop, pause, resume, clearHighlights, requestWakeLock, releaseWakeLock, log]);
+  }, [stop, pause, resume, clearHighlights, requestWakeLock, releaseWakeLock]);
 
   const toggleLoop = useCallback(() => {
     setLooping((prev) => {
@@ -232,7 +217,6 @@ export function usePlayer() {
     looping,
     progress,
     currentNoteIndex,
-    debugLog,
     play,
     pause,
     resume,
