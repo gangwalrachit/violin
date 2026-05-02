@@ -109,14 +109,8 @@ export function usePlayer() {
     }
 
     try {
-      const ctx = window.abcjsAudioContext;
-      if (ctx.state !== "running") {
-        const buf = ctx.createBuffer(1, 1, ctx.sampleRate);
-        const src = ctx.createBufferSource();
-        src.buffer = buf;
-        src.connect(ctx.destination);
-        src.start(0);
-        await ctx.resume();
+      if (window.abcjsAudioContext.state !== "running") {
+        await window.abcjsAudioContext.resume();
       }
     } catch (_) {}
 
