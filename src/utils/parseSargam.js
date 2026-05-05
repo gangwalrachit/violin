@@ -58,7 +58,11 @@ export function parseSargam(abc) {
       const label = NOTE_TO_SARGAM[letter.toUpperCase()];
       if (!label) continue;
 
-      tokens.push({ type: 'note', label, octave, duration, noteIndex: noteIndex++ });
+      // Sa = D4, so the sargam octave spans D→C (not C→B). Ni (C) belongs to the
+      // octave *below* what ABC notation assigns it, so shift it down by one.
+      const sargamOctave = letter.toUpperCase() === 'C' ? octave - 1 : octave;
+
+      tokens.push({ type: 'note', label, octave: sargamOctave, duration, noteIndex: noteIndex++ });
     }
 
     if (tokens.length > 0) {
