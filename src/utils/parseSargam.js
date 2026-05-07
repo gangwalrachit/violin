@@ -5,6 +5,8 @@ const NOTE_TO_SARGAM = { D: 'S', E: 'R', F: 'G', G: 'M', A: 'P', B: 'D', C: 'N' 
 //   { type: 'section' }              — corresponds to $ section break markers
 //
 // noteIndex is global across lines so it maps 1:1 to TimingCallbacks event order.
+// Notes written without whitespace between them (e.g. "GF") form a group token
+// and render with a slur bracket below in sargam view.
 export function parseSargam(abc) {
   const items = [];
   let noteIndex = 0;
@@ -24,66 +26,61 @@ export function parseSargam(abc) {
       .replace(/"[^"]*"/g, '');
 
     const tokens = [];
-    let currentGroup = null;
-    const tokenRe = /(\|+|:\|)|([()])|(?:[_^=]*)([A-Ga-gz])([',]*)(\d*)(\/\d*)?/g;
-    let match;
+    const noteRe = /(\|+|:\|)|(?:[_^=]*)([A-Ga-gz])([',]*)(\d*)(\/\d*)?/g;
 
-    while ((match = tokenRe.exec(line)) !== null) {
-      const [, barline, paren, letter, octaveMod = '', durNum, durDen] = match;
+    // Split on whitespace so that space-separated chunks are processed independently.
+    // Notes within the same chunk (no whitespace between them) become a group.
+    for (const chunk of line.split(/\s+/).filter(Boolean)) {
+      const chunkTokens = [];
+      let match;
+      noteRe.lastIndex = 0;
 
-      if (barline) {
-        if (currentGroup) {
-          tokens.push(currentGroup.length === 1 ? currentGroup[0] : { type: 'group', tokens: currentGroup });
-          currentGroup = null;
+      while ((match = noteRe.exec(chunk)) !== null) {
+        const [, barline, letter, octaveMod = '', durNum, durDen] = match;
+
+        if (barline) {
+          // flush any accumulated notes before the barline
+          if (chunkTokens.length > 0) {
+            tokens.push(chunkTokens.length === 1 ? chunkTokens[0] : { type: 'group', tokens: [...chunkTokens] });
+            chunkTokens.length = 0;
+          }
+          if (tokens.length > 0 && tokens[tokens.length - 1].type !== 'barline') {
+            tokens.push({ type: 'barline' });
+          }
+          continue;
         }
-        if (tokens.length > 0 && tokens[tokens.length - 1].type !== 'barline') {
-          tokens.push({ type: 'barline' });
+
+        if (!letter) continue;
+
+        const num = durNum ? parseInt(durNum, 10) : 1;
+        const denStr = durDen ? durDen.slice(1) : '';
+        const den = denStr ? (parseInt(denStr, 10) || 2) : 1;
+        const duration = num / den;
+
+        if (letter === 'z' || letter === 'Z') {
+          chunkTokens.push({ type: 'rest', duration, noteIndex: noteIndex++ });
+          continue;
         }
-        continue;
+
+        const isLower = letter !== letter.toUpperCase();
+        let octave = 0;
+        if (isLower) octave = 1;
+        if (octaveMod.includes(',')) octave = -1;
+        if (!isLower && octaveMod.includes("'")) octave = 1;
+
+        const label = NOTE_TO_SARGAM[letter.toUpperCase()];
+        if (!label) continue;
+
+        // Sa = D4, so the sargam octave spans D→C (not C→B). Ni (C) belongs to the
+        // octave *below* what ABC notation assigns it, so shift it down by one.
+        const sargamOctave = letter.toUpperCase() === 'C' ? octave - 1 : octave;
+
+        chunkTokens.push({ type: 'note', label, octave: sargamOctave, duration, noteIndex: noteIndex++ });
       }
 
-      if (paren === '(') { currentGroup = []; continue; }
-      if (paren === ')') {
-        if (currentGroup) {
-          tokens.push(currentGroup.length === 1 ? currentGroup[0] : { type: 'group', tokens: currentGroup });
-          currentGroup = null;
-        }
-        continue;
+      if (chunkTokens.length > 0) {
+        tokens.push(chunkTokens.length === 1 ? chunkTokens[0] : { type: 'group', tokens: [...chunkTokens] });
       }
-
-      if (!letter) continue;
-
-      const num = durNum ? parseInt(durNum, 10) : 1;
-      const denStr = durDen ? durDen.slice(1) : '';
-      const den = denStr ? (parseInt(denStr, 10) || 2) : 1;
-      const duration = num / den;
-
-      if (letter === 'z' || letter === 'Z') {
-        const rest = { type: 'rest', duration, noteIndex: noteIndex++ };
-        (currentGroup ?? tokens).push(rest);
-        continue;
-      }
-
-      const isLower = letter !== letter.toUpperCase();
-      let octave = 0;
-      if (isLower) octave = 1;
-      if (octaveMod.includes(',')) octave = -1;
-      if (!isLower && octaveMod.includes("'")) octave = 1;
-
-      const label = NOTE_TO_SARGAM[letter.toUpperCase()];
-      if (!label) continue;
-
-      // Sa = D4, so the sargam octave spans D→C (not C→B). Ni (C) belongs to the
-      // octave *below* what ABC notation assigns it, so shift it down by one.
-      const sargamOctave = letter.toUpperCase() === 'C' ? octave - 1 : octave;
-
-      const note = { type: 'note', label, octave: sargamOctave, duration, noteIndex: noteIndex++ };
-      (currentGroup ?? tokens).push(note);
-    }
-
-    if (currentGroup) {
-      tokens.push(currentGroup.length === 1 ? currentGroup[0] : { type: 'group', tokens: currentGroup });
-      currentGroup = null;
     }
 
     if (tokens.length > 0) {
