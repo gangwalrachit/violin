@@ -24,15 +24,29 @@ export function parseSargam(abc) {
       .replace(/"[^"]*"/g, '');
 
     const tokens = [];
-    const tokenRe = /(\|+|:\|)|(?:[_^=]*)([A-Ga-gz])([',]*)(\d*)(\/\d*)?/g;
+    let currentGroup = null;
+    const tokenRe = /(\|+|:\|)|([()])|(?:[_^=]*)([A-Ga-gz])([',]*)(\d*)(\/\d*)?/g;
     let match;
 
     while ((match = tokenRe.exec(line)) !== null) {
-      const [, barline, letter, octaveMod = '', durNum, durDen] = match;
+      const [, barline, paren, letter, octaveMod = '', durNum, durDen] = match;
 
       if (barline) {
+        if (currentGroup) {
+          tokens.push(currentGroup.length === 1 ? currentGroup[0] : { type: 'group', tokens: currentGroup });
+          currentGroup = null;
+        }
         if (tokens.length > 0 && tokens[tokens.length - 1].type !== 'barline') {
           tokens.push({ type: 'barline' });
+        }
+        continue;
+      }
+
+      if (paren === '(') { currentGroup = []; continue; }
+      if (paren === ')') {
+        if (currentGroup) {
+          tokens.push(currentGroup.length === 1 ? currentGroup[0] : { type: 'group', tokens: currentGroup });
+          currentGroup = null;
         }
         continue;
       }
@@ -45,7 +59,8 @@ export function parseSargam(abc) {
       const duration = num / den;
 
       if (letter === 'z' || letter === 'Z') {
-        tokens.push({ type: 'rest', duration, noteIndex: noteIndex++ });
+        const rest = { type: 'rest', duration, noteIndex: noteIndex++ };
+        (currentGroup ?? tokens).push(rest);
         continue;
       }
 
@@ -62,7 +77,13 @@ export function parseSargam(abc) {
       // octave *below* what ABC notation assigns it, so shift it down by one.
       const sargamOctave = letter.toUpperCase() === 'C' ? octave - 1 : octave;
 
-      tokens.push({ type: 'note', label, octave: sargamOctave, duration, noteIndex: noteIndex++ });
+      const note = { type: 'note', label, octave: sargamOctave, duration, noteIndex: noteIndex++ };
+      (currentGroup ?? tokens).push(note);
+    }
+
+    if (currentGroup) {
+      tokens.push(currentGroup.length === 1 ? currentGroup[0] : { type: 'group', tokens: currentGroup });
+      currentGroup = null;
     }
 
     if (tokens.length > 0) {

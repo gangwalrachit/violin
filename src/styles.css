@@ -996,18 +996,26 @@ body {
   color: var(--text-muted);
 }
 
-.sargam-dur {
-  font-size: 9px;
-  font-weight: 400;
-  color: var(--text-muted);
+.sargam-group {
+  display: inline-flex;
+  align-items: center;
   position: relative;
-  top: 4px;
-  margin-left: 1px;
-  line-height: 1;
+  padding-bottom: 10px;
 }
 
-.sargam-token.active .sargam-dur {
-  color: rgba(250, 249, 245, 0.65);
+.sargam-slur {
+  position: absolute;
+  bottom: 2px;
+  left: 8px;
+  right: 8px;
+  height: 8px;
+  color: var(--text-muted);
+  pointer-events: none;
+  overflow: visible;
+}
+
+.sargam-group.active .sargam-slur {
+  color: var(--accent);
 }
 
 /* Octave dot above (upper octave, e.g. lowercase d = Sa') */
