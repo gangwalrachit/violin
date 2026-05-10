@@ -999,8 +999,8 @@ body {
 .sargam-group {
   display: inline-flex;
   align-items: center;
-  position: relative;
-  padding-bottom: 12px;
+  border-bottom: 1.5px solid var(--text-muted);
+  padding-bottom: 2px;
   margin-right: 10px;
 }
 
@@ -1009,18 +1009,8 @@ body {
   padding-right: 4px;
 }
 
-.sargam-slur {
-  position: absolute;
-  bottom: 2px;
-  left: 6px;
-  right: 6px;
-  height: 8px;
-  color: var(--text-muted);
-  pointer-events: none;
-}
-
-.sargam-group.active .sargam-slur {
-  color: var(--accent);
+.sargam-group.active {
+  border-bottom-color: var(--accent);
 }
 
 /* Octave dot above (upper octave, e.g. lowercase d = Sa') */
