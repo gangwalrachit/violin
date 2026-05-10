@@ -1009,9 +1009,6 @@ body {
   padding-right: 4px;
 }
 
-.sargam-group.active {
-  border-bottom-color: var(--accent);
-}
 
 /* Octave dot above (upper octave, e.g. lowercase d = Sa') */
 .sargam-token.upper::after {
