@@ -28,7 +28,7 @@
       "id": "exercise-5",
       "title": "Exercise 5",
       "category": "exercises",
-      "abc": "X: 1\nT: Exercise 5\nM: 4/4\nL: 1/8\nQ: 1/4=80\nK: D\n%%MIDI program 40\n$\nDEFG | EFGA | FGAB | GABc | ABcd |\ndcBA | cBAG | BAGF | AGFE | GFED |"
+      "abc": "X: 1\nT: Exercise 5\nM: 4/4\nL: 1/8\nQ: 1/4=80\nK: D\n%%MIDI program 40\n$\nD E F G E F G A | F G A B G A B c | A B c d |\nd c B A c B A G | B A G F A G F E | G F E D |"
     },
     {
       "id": "exercise-6",
