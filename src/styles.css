@@ -990,7 +990,7 @@ body {
   font-size: 15px;
   font-weight: 500;
   color: var(--text-primary);
-  padding: 10px 5px;
+  padding: 10px 7px;
   border-radius: 6px;
   line-height: 1;
   transition: background 0.08s, color 0.08s;
@@ -1049,6 +1049,11 @@ body {
 
   .sargam-view {
     padding: 8px 16px;
+  }
+
+  .sargam-inner {
+    grid-template-columns: 1fr;
+    gap: 0;
   }
 
   .sargam-token {
