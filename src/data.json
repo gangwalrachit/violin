@@ -16,7 +16,7 @@
       "id": "exercise-3",
       "title": "Exercise 3",
       "category": "exercises",
-      "abc": "X: 1\nT: Exercise 3\nM: 4/4\nL: 1/8\nQ: 1/4=80\nK: D\n%%MIDI program 40\n$\nDDDD EEEE FFFF GGGG | AAAA BBBB cccc dddd |\ndddd cccc BBBB AAAA | GGGG FFFF EEEE DDDD |"
+      "abc": "X: 1\nT: Exercise 3\nM: 4/4\nL: 1/8\nQ: 1/4=80\nK: D\n%%MIDI program 40\n$\nDDDD EEEE | FFFF GGGG | AAAA BBBB | cccc dddd |\ndddd cccc | BBBB AAAA | GGGG FFFF | EEEE DDDD |"
     },
     {
       "id": "exercise-4",
@@ -28,7 +28,7 @@
       "id": "exercise-5",
       "title": "Exercise 5",
       "category": "exercises",
-      "abc": "X: 1\nT: Exercise 5\nM: 4/4\nL: 1/8\nQ: 1/4=80\nK: D\n%%MIDI program 40\n$\nDEFG EFGA FGAB GABc ABcd |\ndcBA cBAG BAGF AGFE GFED |"
+      "abc": "X: 1\nT: Exercise 5\nM: 4/4\nL: 1/8\nQ: 1/4=80\nK: D\n%%MIDI program 40\n$\nDEFG EFGA | FGAB GABc | ABcd |\ndcBA cBAG | BAGF AGFE | GFED |"
     },
     {
       "id": "exercise-6",
@@ -40,25 +40,25 @@
       "id": "exercise-7",
       "title": "Exercise 7",
       "category": "exercises",
-      "abc": "X: 1\nT: Exercise 7\nM: 4/4\nL: 1/8\nQ: 1/4=80\nK: D\n%%MIDI program 40\n$\nD E F G | d c B A |\nE F G A | c B A G |\nF G A B | B A G F |\nG A B c | A G F E |\nA B c d | G F E D |"
+      "abc": "X: 1\nT: Exercise 7\nM: 4/4\nL: 1/8\nQ: 1/4=80\nK: D\n%%MIDI program 40\n$\nD E F G d c B A | E F G A c B A G |\nF G A B B A G F | G A B c A G F E |\nA B c d G F E D |"
     },
     {
       "id": "exercise-8",
       "title": "Exercise 8",
       "category": "exercises",
-      "abc": "X: 1\nT: Exercise 8\nM: 4/4\nL: 1/8\nQ: 1/4=80\nK: D\n%%MIDI program 40\n$\nD E F | d c B | E F G | c B A |\nF G A | B A G | G A B | A G F |\nA B c | G F E | B c d | F E D |"
+      "abc": "X: 1\nT: Exercise 8\nM: 4/4\nL: 1/8\nQ: 1/4=80\nK: D\n%%MIDI program 40\n$\nD E F d c B | E F G c B A |\nF G A B A G | G A B A G F |\nA B c G F E | B c d F E D |"
     },
     {
       "id": "exercise-9",
       "title": "Exercise 9",
       "category": "exercises",
-      "abc": "X: 1\nT: Exercise 9\nM: 4/4\nL: 1/8\nQ: 1/4=80\nK: D\n%%MIDI program 40\n$\nD E | d c |\nE F | c B |\nF G | B A |\nG A | A G |\nA B | G F |\nB c | F E |\nc d | E D |"
+      "abc": "X: 1\nT: Exercise 9\nM: 4/4\nL: 1/8\nQ: 1/4=80\nK: D\n%%MIDI program 40\n$\nD E d c | E F c B |\nF G B A | G A A G |\nA B G F | B c F E |\nc d E D |"
     },
     {
       "id": "exercise-10",
       "title": "Exercise 10",
       "category": "exercises",
-      "abc": "X: 1\nT: Exercise 10\nM: 4/4\nL: 1/8\nQ: 1/4=80\nK: D\n%%MIDI program 40\n$\nD d | E c |\nF B | G A |\nA G | B F |\nc E | d D |"
+      "abc": "X: 1\nT: Exercise 10\nM: 4/4\nL: 1/8\nQ: 1/4=80\nK: D\n%%MIDI program 40\n$\nD d E c | F B G A |\nA G B F | c E d D |"
     }
   ],
   "songs": [
